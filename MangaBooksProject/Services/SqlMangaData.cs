@@ -68,7 +68,7 @@ namespace MangaBooksProject.Services
 
         public IEnumerable<Manga> GetBySearchString(string searchString)
         {
-            var manga = db.Mangas.Where(m => m.Title.Contains(searchString)).ToList();
+            var manga = db.Mangas.Where(m => m.Title.Contains(searchString) || searchString == null).ToList();
             return manga;
         }
     }

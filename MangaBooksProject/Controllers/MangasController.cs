@@ -20,9 +20,12 @@ namespace MangaBooksProject.Controllers
         }
 
         //Get Mangas List
-        public IActionResult Index()
+        public IActionResult Index(string searchString)
         {
-            var model = db.GetAll();
+            //var model = db.GetAll();
+
+            var model = db.GetBySearchString(searchString); 
+
             return View(model);
         }
 
