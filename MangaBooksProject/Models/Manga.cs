@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,49 +10,51 @@ namespace MangaBooksProject.Models
 {
     public class Manga
     {
+        private DateTime releasedate;
+
         [Key]
         public int Id { get; set; }
         [Required]
         public string Title { get; set; }
-        [DisplayFormat(DataFormatString = "{0:d}")]
-        public DateTime Releasedate { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd/mm/yyyy}")]
+
+        public DateTime Releasedate
+        {
+            get
+            {
+                return releasedate;
+            }
+            set
+            {
+                releasedate.IsDaylightSavingTime();
+                releasedate = value;
+            }
+        } 
+
         public string Author { get; set; }
         public int Chapters { get; set; }
-        public GenreType Genre {get; set;}
-        [Range(1, 5 )]
+        public GenreType Genre { get; set; }
+        [Range(1, 5)]
         public int Rating { get; set; }
-        public bool Status { get; set; } 
+        public bool Status { get; set; }
+
+        //[Display(Name = "Upload a bookart for your manga")]
+
+        //public IFormFile MangaImage { get; set; }
     }
 }
 
 
 
-//private DateTime _releasedate;
-
-//public DateTime Releasedate
-//{
-//    get
-//    {
-//        return _releasedate;
-//    }
-//    set
-//    {
-//        _releasedate.Date.ToShortDateString();
-//        _releasedate = value;
-//    }
-//}
 
 
 
-//public int Chapters
-//{ 
-//    get
-//    {
-//        return _chapters;
-//    }
-//    set
-//    {
-//        _chapters = 5000;
 
-//    }
-//}
+
+
+
+
+
+
+
+

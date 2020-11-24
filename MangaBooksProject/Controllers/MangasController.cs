@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using MangaBooksProject.Models;
 using MangaBooksProject.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Web;
+using Microsoft.AspNetCore.Hosting;
 
 namespace MangaBooksProject.Controllers
 {
@@ -13,10 +16,12 @@ namespace MangaBooksProject.Controllers
 
     {
         private readonly IMangaData db;
+        private readonly IWebHostEnvironment webHostEnvironment;
 
-        public MangasController(IMangaData db)
+        public MangasController(IMangaData db, IWebHostEnvironment webHostEnvironment)
         {
             this.db = db;
+            this.webHostEnvironment = webHostEnvironment;
         }
 
         //Get Mangas List
@@ -39,15 +44,38 @@ namespace MangaBooksProject.Controllers
 
         //Post Create
         [HttpPost]
-        public IActionResult Create(Manga manga)
+        public async Task<IActionResult> Create(Manga manga, IFormFile mangaimage)
         {
             if (ModelState.IsValid)
             {
-                db.Add(manga);
-                return RedirectToAction("Index");
+
+                if (mangaimage != null)
+                {
+                    string folder = "Images/Uploaded_covers/";
+                    folder += mangaimage.FileName + Guid.NewGuid().ToString(); 
+                    string serverFolder = Path.Combine(webHostEnvironment.WebRootPath, folder);
+                    await mangaimage.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
+                    //db.Add(manga);
+                    return View();
+                }
             }
-            return View();
+            return RedirectToPage("NotFound");
         }
+
+
+        //public IActionResult SingleFile()
+        //{
+
+        //    var dir = env.WebRootPath;
+        //    using (var fileStream = new FileStream(Path.Combine(dir, filename), FileMode.Create, FileAccess.Write))
+        //    {
+        //        file.CopyTo(fileStream);
+        //    }
+
+        //    return RedirectToAction("Create ", "Mangas");
+        //}
+
+
 
         //Get Details
         [HttpGet]
@@ -117,6 +145,11 @@ namespace MangaBooksProject.Controllers
             return View(model);
         }
 
+
+
+
+        
+        
         
 
 

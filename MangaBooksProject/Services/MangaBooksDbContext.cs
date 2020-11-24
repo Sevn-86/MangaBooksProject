@@ -14,5 +14,6 @@ namespace MangaBooksProject.Services
 
         }
         public DbSet<Manga> Mangas { get; set; }
+        public DbSet<File> Files { get; set; }
     }
 }

@@ -19,6 +19,37 @@ namespace MangaBooksProject.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.0");
 
+            modelBuilder.Entity("MangaBooksProject.Models.File", b =>
+                {
+                    b.Property<int>("FileId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<byte[]>("Content")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("ContentType")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("FileName")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<int>("FileType")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("MangaId")
+                        .HasColumnType("int");
+
+                    b.HasKey("FileId");
+
+                    b.HasIndex("MangaId");
+
+                    b.ToTable("Files");
+                });
+
             modelBuilder.Entity("MangaBooksProject.Models.Manga", b =>
                 {
                     b.Property<int>("Id")
@@ -51,6 +82,18 @@ namespace MangaBooksProject.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Mangas");
+                });
+
+            modelBuilder.Entity("MangaBooksProject.Models.File", b =>
+                {
+                    b.HasOne("MangaBooksProject.Models.Manga", null)
+                        .WithMany("Files")
+                        .HasForeignKey("MangaId");
+                });
+
+            modelBuilder.Entity("MangaBooksProject.Models.Manga", b =>
+                {
+                    b.Navigation("Files");
                 });
 #pragma warning restore 612, 618
         }
