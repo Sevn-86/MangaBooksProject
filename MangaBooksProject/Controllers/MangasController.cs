@@ -29,7 +29,7 @@ namespace MangaBooksProject.Controllers
         {
             //var model = db.GetAll();
 
-            var model = db.GetBySearchString(searchString); 
+            var model = db.GetBySearchString(searchString);
 
             return View(model);
         }

@@ -31,6 +31,11 @@ namespace MangaBooksProject
             });
             services.AddScoped<IMangaData, SqlMangaData>();
             services.AddControllersWithViews();
+
+#if DEBUG
+            services.AddRazorPages().AddRazorRuntimeCompilation();
+#endif
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

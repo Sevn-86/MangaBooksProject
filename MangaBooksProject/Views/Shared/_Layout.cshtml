@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -10,16 +11,17 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                    <a class="navbar-brand" href="@Url.Action("Index", "Home")">
-                        <img src="~/Images/Logo.png" alt="Site Logo" style="height:35px; width: 179px" />
-                   </a>
+        <div class="container">
+
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-light border-bottom box-shadow mb-3">
+                <a class="navbar-brand" href="@Url.Action("Index", "Home")">
+                    <img src="~/Images/Logo.png" alt="Site Logo" style="height:35px; width: 179px" />
+                </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse col-6">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
@@ -27,17 +29,27 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Mangas" asp-action="Index">Mangas</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Mangas" asp-action="HotManga"> Hot Manga</a>
+                        <li class="nav-item" word-break="normal" whitespace="normal">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Mangas" asp-action="HotManga">Hot Manga</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Mangas" asp-action="FinishedManga">Finished Manga</a>
                         </li>
                     </ul>
+
                 </div>
-            </div>
-        </nav>
+                <div class="input-group mb-3">
+
+                    <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-small" name="searchString" />
+                    &nbsp;
+                    <input class="btn btn-primary" type="submit" value="Search" />
+
+                </div>
+            </nav>
+
+        </div>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -46,12 +58,15 @@
 
     <footer class="border-top footer text-muted">
         <div class="container" align="center">
-            &copy; 2020 - MangaBooksProject 
+            &copy; 2020 - MangaBooksProject
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script src="~/lib/twitter-bootstrap/js/bootstrap.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>
