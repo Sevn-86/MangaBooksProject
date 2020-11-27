@@ -9,20 +9,7 @@
 <p>
     <a asp-action="Create">Create New&nbsp;<i class="fas fa-plus"></i></a>
 </p>
-
-<div>
-    @using (Html.BeginForm("Index", "Mangas", FormMethod.Get))
-    {
-        
-    
-    <div class="input-group mb-3">
-        <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="searchString"  /> 
-        &nbsp;
-        <input class="btn btn-primary" type="submit" value="Search" />
-    </div>       
-    }
-</div>
-<br>
+<br />
 <table class="table">
     <thead>
         <tr>

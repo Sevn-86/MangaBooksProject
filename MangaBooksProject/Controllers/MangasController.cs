@@ -27,10 +27,7 @@ namespace MangaBooksProject.Controllers
         //Get Mangas List
         public IActionResult Index(string searchString)
         {
-            //var model = db.GetAll();
-
             var model = db.GetBySearchString(searchString);
-
             return View(model);
         }
 
@@ -44,38 +41,22 @@ namespace MangaBooksProject.Controllers
 
         //Post Create
         [HttpPost]
-        public async Task<IActionResult> Create(Manga manga, IFormFile mangaimage)
+        public /*async Task<*/IActionResult/*>*/ Create(Manga manga)
         {
             if (ModelState.IsValid)
             {
-
-                if (mangaimage != null)
-                {
-                    string folder = "Images/Uploaded_covers/";
-                    folder += mangaimage.FileName + Guid.NewGuid().ToString(); 
-                    string serverFolder = Path.Combine(webHostEnvironment.WebRootPath, folder);
-                    await mangaimage.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
-                    //db.Add(manga);
-                    return View();
+                //if (manga.MangaImage != null)
+                //{
+                //    string folder = "Images/Uploaded_covers/";
+                //    folder += Guid.NewGuid().ToString() + "_" + manga.MangaImage.FileName; 
+                //    string serverFolder = Path.Combine(webHostEnvironment.WebRootPath, folder);
+                //    await manga.MangaImage.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
+                db.Add(manga);
+                return View();
                 }
-            }
-            return RedirectToPage("NotFound");
+            //}
+            return RedirectToPage("Index");
         }
-
-
-        //public IActionResult SingleFile()
-        //{
-
-        //    var dir = env.WebRootPath;
-        //    using (var fileStream = new FileStream(Path.Combine(dir, filename), FileMode.Create, FileAccess.Write))
-        //    {
-        //        file.CopyTo(fileStream);
-        //    }
-
-        //    return RedirectToAction("Create ", "Mangas");
-        //}
-
-
 
         //Get Details
         [HttpGet]

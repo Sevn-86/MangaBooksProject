@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,7 +18,6 @@ namespace MangaBooksProject.Models
         [Required]
         public string Title { get; set; }
         [DisplayFormat(DataFormatString = "{0:dd/mm/yyyy}")]
-
         public DateTime Releasedate
         {
             get
@@ -30,8 +30,8 @@ namespace MangaBooksProject.Models
                 releasedate = value;
             }
         } 
-
         public string Author { get; set; }
+        public string Description { get; set; }
         public int Chapters { get; set; }
         public GenreType Genre { get; set; }
         [Range(1, 5)]
@@ -39,7 +39,8 @@ namespace MangaBooksProject.Models
         public bool Status { get; set; }
 
         //[Display(Name = "Upload a bookart for your manga")]
-
+        //[Required]
+        //[NotMapped]
         //public IFormFile MangaImage { get; set; }
     }
 }

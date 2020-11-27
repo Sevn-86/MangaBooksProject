@@ -2,41 +2,30 @@
 
 @{
     ViewData["Title"] = "Details";
+    Layout = "_Layout";
+
+
 }
 
-<h1>Details</h1>
 
-<div>
-    <h4>Manga</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Chapters)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Chapters)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Genre)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Genre)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Rating)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Rating)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+<div class="container">
+    <div class="row">
+        <div>
+            <h2 class="display-4">@Html.DisplayFor(model => model.Title)</h2>
+        </div>
+        <div class="row">
+            <img class="col-sm-4" src="~/Images/Covers_detail/yellowcover.jpg" alt="cover1" />
+            <div class="col-sm-8">
+                    <p class="font-weight-bold">Author:<span class="font-weight-normal"> @Html.DisplayFor(model => model.Author)</span></p>
+                    <p class="font-weight-bold">Description:<span class="font-weight-normal"> @Html.DisplayFor(model => model.Description)</span></p>
+                    <p class="font-weight-bold">Genre:<span class="font-weight-normal"> @Html.DisplayFor(model => model.Genre)</span></p>
+                    <p class="font-weight-bold">Chapters:<span class="font-weight-normal"> @Html.DisplayFor(model => model.Chapters)</span></p>  
+            </div>
+        </div>
+        <div>
+            <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+            <a asp-action="Index">Back to List</a>
+        </div>
+    </div>
 </div>

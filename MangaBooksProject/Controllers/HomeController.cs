@@ -13,19 +13,20 @@ namespace MangaBooksProject.Controllers
 {
     public class HomeController : Controller
     {
-
-      
-
+       
         private readonly ILogger<HomeController> _logger;
+        private readonly IMangaData db;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IMangaData db)
         {
             _logger = logger;
+            this.db = db;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string searchString)
         {
-            return View();
+            var model = db.GetBySearchString(searchString);
+            return View(model);
         }
 
    
