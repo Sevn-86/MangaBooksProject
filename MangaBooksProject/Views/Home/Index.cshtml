@@ -1,10 +1,9 @@
-﻿@model IEnumerable<MangaBooksProject.Models.Manga>
+﻿@model IEnumerable<MangaModel>
 
 
 @{
 
     ViewData["Title"] = "Home Page";
-    Layout = "_Layout";
 
 }
 
@@ -16,14 +15,14 @@
     </ol>
     <div class="carousel-inner">
         <div class="carousel-item 1 active">
-            <img src="~/Images/Carousel/naruto_carousel.png" class="d-block w-100" alt="naruto_carousel">
+            <img src="~/Images/Carousel/naruto_carousel.png" class="d-block w-100" alt="naruto_carousel" asp-append-version="true" >
         </div>
         <div class="carousel-item 2">
-            <img src="~/Images/Carousel/7ds_carousel.png" class="d-block w-100" alt="7ds_carousel">
+            <img src="~/Images/Carousel/7ds_carousel.png" class="d-block w-100" alt="7ds_carousel" asp-append-version="true">
 
         </div>
         <div class="carousel-item 3">
-            <img src="~/Images/Carousel/dbz_carousel.png" class="d-block w-100" alt="dbz_carousel">
+            <img src="~/Images/Carousel/dbz_carousel.png" class="d-block w-100" alt="dbz_carousel" asp-append-version="true">
         </div>
     </div>
     <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
@@ -36,23 +35,23 @@
     </a>
 </div>
 
-
 <div class="container">
-        <div class="row mt-5" align="center">
+    <div class="row mt-5" align="center">
 
-            @foreach(var item in Model)
-                {
+        @foreach (var item in Model)
+        {
+        var MangaImagePath = "~/Images/Uploaded_covers/" + item.MangaImagePath;
             <div class="col-md-4 mb-5">
                 <div class="card" style="width: 18rem;">
-                    <img src="~/Images/Carousel/yellowcover.jpg" class="card-img-top" alt="...">
+                    <img src="@MangaImagePath" class="card-img-top" alt="Temp" asp-append-version="true">
                     <div class="card-body">
                         <p class="card-text">@item.Title</p>
-                        <a href="Mangas/Details/ @item.Id" class="btn btn-info">View Details</a>
+                        <a class="btn btn-info" asp-controller="Mangas" asp-action="Details" asp-route-id="@item.Id" asp-route-title="@item.Title">View Details</a>
                     </div>
                 </div>
             </div>
-                }
-                </div>
-          </div>
-        
+        }
+    </div>
+</div>
+
 

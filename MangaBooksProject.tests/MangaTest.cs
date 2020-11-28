@@ -10,7 +10,7 @@ namespace MangaBooksProject.tests
         public void AuthorInput()
         {
             //Arrange
-            var manga1 = new Manga();
+            var manga1 = new MangaModel();
             var authorinput = manga1.Author = "Kubo Tite";
 
             //Act

@@ -19,7 +19,7 @@ namespace MangaBooksProject.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.0");
 
-            modelBuilder.Entity("MangaBooksProject.Models.Manga", b =>
+            modelBuilder.Entity("MangaBooksProject.Models.MangaModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -37,6 +37,9 @@ namespace MangaBooksProject.Migrations
 
                     b.Property<int>("Genre")
                         .HasColumnType("int");
+
+                    b.Property<string>("MangaImagePath")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Rating")
                         .HasColumnType("int");

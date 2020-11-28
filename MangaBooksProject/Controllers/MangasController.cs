@@ -41,21 +41,34 @@ namespace MangaBooksProject.Controllers
 
         //Post Create
         [HttpPost]
-        public /*async Task<*/IActionResult/*>*/ Create(Manga manga)
+        public IActionResult Create(MangaModelCreate model)
         {
-            if (ModelState.IsValid)
+            if (model.MangaImage != null && ModelState.IsValid)
             {
-                //if (manga.MangaImage != null)
-                //{
-                //    string folder = "Images/Uploaded_covers/";
-                //    folder += Guid.NewGuid().ToString() + "_" + manga.MangaImage.FileName; 
-                //    string serverFolder = Path.Combine(webHostEnvironment.WebRootPath, folder);
-                //    await manga.MangaImage.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
-                db.Add(manga);
-                return View();
+                string uniqueFileName = null;
+                if (model.MangaImage != null)
+                {
+                    string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images/Uploaded_covers");
+                    uniqueFileName = Guid.NewGuid().ToString() + "_" + model.MangaImage.FileName;
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                    model.MangaImage.CopyTo(new FileStream(filePath, FileMode.Create));
                 }
-            //}
-            return RedirectToPage("Index");
+                MangaModel newManga = new MangaModel
+                {
+                    MangaImagePath = uniqueFileName,
+                    Chapters = model.Chapters,
+                    Description = model.Description,
+                    Title = model.Title,
+                    Author = model.Author,
+                    Status = model.Status,
+                    Rating = model.Rating,
+                    Releasedate = model.Releasedate,
+                    Genre = model.Genre
+                };
+                db.Add(newManga);
+                return RedirectToAction("Details", new { id = newManga.Id });
+            }
+            return View();
         }
 
         //Get Details
@@ -73,7 +86,7 @@ namespace MangaBooksProject.Controllers
             var model = db.GetById(id);
             if (model == null)
             {
-                return RedirectToAction("NotFound");
+                return RedirectToAction("Error");
             }
             return View(model);
         }
@@ -103,7 +116,7 @@ namespace MangaBooksProject.Controllers
         //Post Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Manga manga)
+        public IActionResult Edit(MangaModel manga)
         {
             if (ModelState.IsValid)
             {
@@ -112,6 +125,7 @@ namespace MangaBooksProject.Controllers
             }
             return View();
         }
+
         [HttpGet]
         public IActionResult HotManga()
         {
@@ -125,15 +139,6 @@ namespace MangaBooksProject.Controllers
             var model = db.GetByStatus();
             return View(model);
         }
-
-
-
-
-        
-        
-        
-
-
     }
 
 }

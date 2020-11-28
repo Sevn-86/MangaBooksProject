@@ -1,63 +1,70 @@
-﻿@model MangaBooksProject.Models.Manga
+﻿@model MangaModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = Model.Title;
 }
-
-<h1>Edit</h1>
-
-<h4>Manga</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+<div class="container">
+    <h2 class="display-4">Edit @Html.DisplayFor(model => model.Title)</h2>
+    <form asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Id" />
+        <div class="form-group">
+            <label asp-for="Title" class="control-label"></label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Author" class="control-label"></label>
+            <input asp-for="Author" class="form-control" />
+            <span asp-validation-for="Author" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            @Html.DropDownList("Genre",
+            Html.GetEnumSelectList<GenreType>(),
+            "Select Genre", new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label asp-for="Chapters" class="control-label"></label>
+            <input asp-for="Chapters" class="form-control" />
+            <span asp-validation-for="Chapters" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Releasedate" class="control-label"></label>
+            <input asp-for="Releasedate" class="form-control" />
+            <span asp-validation-for="Releasedate" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Rating" class="control-label"></label>
+            <input asp-for="Rating" class="form-control" />
+            <span asp-validation-for="Rating" class="text-danger"></span>
+        </div>
+        <div class="form-group form-check">
+            <label class="control-label">Status</label>
+            <label class="form-check-label">
+                <label for="Ongoing">Ongoing</label>
+                @Html.RadioButtonFor(m => m.Status, false)
+                <label for="Finished">Finished</label>
+                @Html.RadioButtonFor(m => m.Status, true)
+            </label>
+        </div>
+        <div class="form-group">
+            <label asp-for="Description"></label>
+            <textarea class="form-control" asp-for="Description"> </textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        @*<div class="form-group">
+            <label asp-for="MangaImage" class="control-label"></label>
+            <div class="custom-file">
+                <input asp-for="MangaImage" class="custom-file-input" id="customFile">
+                <label class="custom-file-label" for="customFile">Choose file</label>
             </div>
-            <div class="form-group">
-                <label asp-for="Releasedate" class="control-label"></label>
-                <input asp-for="Releasedate" class="form-control" />
-                <span asp-validation-for="Releasedate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Author" class="control-label"></label>
-                <input asp-for="Author" class="form-control" />
-                <span asp-validation-for="Author" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Chapters" class="control-label"></label>
-                <input asp-for="Chapters" class="form-control" />
-                <span asp-validation-for="Chapters" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                @Html.DropDownList("Genre",
-                Html.GetEnumSelectList<GenreType>(),
-                "Select Genre", new { @class = "form-control" })
-            </div>
-            <div class="form-group">
-                <label asp-for="Rating" class="control-label"></label>
-                <input asp-for="Rating" class="form-control" />
-                <span asp-validation-for="Rating" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <label for="Ongoing">Ongoing</label>
-                    @Html.RadioButtonFor(m => m.Status, false)
-                    <label for="Finished">Finished</label>
-                    @Html.RadioButtonFor(m => m.Status, true)
-                </label>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+            <span asp-validation-for="MangaImage" class="text-danger"></span>
+        </div>*@
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-primary" />
+        </div>
+    </form>
     </div>
-</div>
-
 <div>
     <a asp-action="Index">Back to List</a>
 </div>

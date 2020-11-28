@@ -1,26 +1,21 @@
-﻿@model MangaBooksProject.Models.Manga
+﻿@model MangaModel
 
 @{
-    ViewData["Title"] = "Details";
-    Layout = "_Layout";
-
-
+    ViewData["Title"] = "Details " + Model.Title;
+    var ImagePath = "~/Images/Uploaded_covers/" + Model.MangaImagePath;
 }
-
-
-
 <div class="container">
     <div class="row">
         <div>
             <h2 class="display-4">@Html.DisplayFor(model => model.Title)</h2>
         </div>
         <div class="row">
-            <img class="col-sm-4" src="~/Images/Covers_detail/yellowcover.jpg" alt="cover1" />
+            <img class="col-sm-4 mb-3" src="@ImagePath" alt="cover1" asp-append-version="true" />
             <div class="col-sm-8">
-                    <p class="font-weight-bold">Author:<span class="font-weight-normal"> @Html.DisplayFor(model => model.Author)</span></p>
-                    <p class="font-weight-bold">Description:<span class="font-weight-normal"> @Html.DisplayFor(model => model.Description)</span></p>
-                    <p class="font-weight-bold">Genre:<span class="font-weight-normal"> @Html.DisplayFor(model => model.Genre)</span></p>
-                    <p class="font-weight-bold">Chapters:<span class="font-weight-normal"> @Html.DisplayFor(model => model.Chapters)</span></p>  
+                <p class="font-weight-bold">Author:<span class="font-weight-normal"> @Html.DisplayFor(model => model.Author)</span></p>
+                <p class="font-weight-bold">Description:<span class="font-weight-normal"> @Html.DisplayFor(model => model.Description)</span></p>
+                <p class="font-weight-bold">Genre:<span class="font-weight-normal"> @Html.DisplayFor(model => model.Genre)</span></p>
+                <p class="font-weight-bold">Chapters:<span class="font-weight-normal"> @Html.DisplayFor(model => model.Chapters)</span></p>
             </div>
         </div>
         <div>
