@@ -5,12 +5,12 @@
     var ImagePath = "~/Images/Uploaded_covers/" + Model.MangaImagePath;
 }
 <div class="container">
-    <div class="row">
-        <div>
-            <h2 class="display-4">@Html.DisplayFor(model => model.Title)</h2>
         </div>
         <div class="row">
-            <img class="col-sm-4 mb-3" src="@ImagePath" alt="cover1" asp-append-version="true" />
+            <h2 class="display-4 col-sm-12">@Html.DisplayFor(model => model.Title)</h2>
+            <div class="card col-sm-4 mb-3" style="width: 18rem;">
+                <img class="card-img-top" src="@ImagePath" alt="cover1" asp-append-version="true" />
+            </div>
             <div class="col-sm-8">
                 <p class="font-weight-bold">Author:<span class="font-weight-normal"> @Html.DisplayFor(model => model.Author)</span></p>
                 <p class="font-weight-bold">Description:<span class="font-weight-normal"> @Html.DisplayFor(model => model.Description)</span></p>
@@ -18,9 +18,9 @@
                 <p class="font-weight-bold">Chapters:<span class="font-weight-normal"> @Html.DisplayFor(model => model.Chapters)</span></p>
             </div>
         </div>
-        <div>
-            <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-            <a asp-action="Index">Back to List</a>
+            <div>
+                <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+                <a asp-action="Index">Back to List</a>
+            </div>
         </div>
-    </div>
 </div>

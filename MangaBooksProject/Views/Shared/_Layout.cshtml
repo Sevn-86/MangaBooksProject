@@ -45,15 +45,17 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Mangas" asp-action="Index">Mangas</a>
-                        </li>
-                        <li class="nav-item" word-break="normal" whitespace="normal">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Mangas" asp-action="HotManga">Hot&nbspManga</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Mangas" asp-action="FinishedManga">Finished&nbspManga</a>
-                        </li>
+                        <environment include="Development">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Mangas" asp-action="Index">Mangas</a>
+                            </li>
+                            </environment>
+                            <li class="nav-item" word-break="normal" whitespace="normal">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Mangas" asp-action="HotManga">Hot&nbspManga</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Mangas" asp-action="FinishedManga">Finished&nbspManga</a>
+                            </li>
                     </ul>
                     <form class="form-inline my-2 my-lg-0">
                         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="searchString">
