@@ -5,7 +5,7 @@
 }
 <div class="container">
     <h2 class="display-4">Edit @Html.DisplayFor(model => model.Title)</h2>
-    <form asp-action="Edit">
+    <form enctype="multipart/form-data" asp-action="Edit">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="Id" />
         <div class="form-group">
@@ -19,9 +19,15 @@
             <span asp-validation-for="Author" class="text-danger"></span>
         </div>
         <div class="form-group">
-            @Html.DropDownList("Genre",
-            Html.GetEnumSelectList<GenreType>(),
-            "Select Genre", new { @class = "form-control" })
+            <label asp-for="Genre" class="control-label"></label>
+            <select asp-for="Genre" class="form-control">
+                <option>Thriller</option>
+                <option>Detective</option>
+                <option>Action</option>
+                <option>Romance</option>
+                <option>Historical</option>
+            </select>
+            <span asp-validation-for="Genre" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="Chapters" class="control-label"></label>
@@ -52,19 +58,19 @@
             <textarea class="form-control" asp-for="Description"> </textarea>
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>
-        @*<div class="form-group">
+        <div class="form-group">
             <label asp-for="MangaImage" class="control-label"></label>
             <div class="custom-file">
                 <input asp-for="MangaImage" class="custom-file-input" id="customFile">
                 <label class="custom-file-label" for="customFile">Choose file</label>
+                <span asp-validation-for="MangaImage" class="text-danger"></span>
             </div>
-            <span asp-validation-for="MangaImage" class="text-danger"></span>
-        </div>*@
+        </div>
         <div class="form-group">
             <input type="submit" value="Save" class="btn btn-primary" />
         </div>
     </form>
-    </div>
+</div>
 <div>
     <a asp-action="Index">Back to List</a>
 </div>

@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MangaBooksProject.Models;
-using MangaBooksProject.Services;
+
 using Microsoft.AspNetCore.Hosting;
+using MangaBooksProject.Data;
 
 namespace MangaBooksProject.Controllers
 {
@@ -23,9 +24,9 @@ namespace MangaBooksProject.Controllers
             this.db = db;
         }
 
-        public IActionResult Index(string searchString)
+        public async Task<ViewResult> Index()
         {
-            var model = db.GetBySearchString(searchString);
+            var model = await db.GetAll();
             return View(model);
         }
 

@@ -1,20 +1,17 @@
 ﻿using MangaBooksProject.Models;
-using System;
+using Microsoft.AspNetCore.Hosting;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
-namespace MangaBooksProject.Services
+namespace MangaBooksProject.Data
 {
     public interface IMangaData
     {
-        IEnumerable<MangaModel> GetAll();
-        MangaModel GetById(int id);
-        void Add(MangaModel manga);
-        void Update(MangaModel manga);
+        Task<MangaModel> GetById(int Id);
+        Task<int> Add(MangaModel mangamodel);
+        Task <List<MangaModel>> GetAll();
+        void Update(MangaModel model);
         void Delete(int id);
-        IEnumerable<MangaModel> GetByRating();
-        IEnumerable<MangaModel> GetByStatus();
-        IEnumerable<MangaModel> GetBySearchString(string searchString);
+        string GetBySearchString(string searchString); 
     }
 }

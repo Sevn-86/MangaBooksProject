@@ -1,27 +1,58 @@
-﻿using MangaBooksProject.Models;
+﻿using MangaBooksProject.Mappers;
+using MangaBooksProject.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MangaBooksProject.Services
+namespace MangaBooksProject.Data
 {
     public class SqlMangaData : IMangaData
     {
         private readonly MangaBooksDbContext db;
-
         public SqlMangaData(MangaBooksDbContext db)
         {
             this.db = db;
         }
 
-        public void Add(MangaModel manga)
+        public async Task<int> Add(MangaModel mangamodel)
         {
-            db.Mangas.Add(manga);
-            db.SaveChanges();
-
+            var newManga = MangaMapper.toAggregate(mangamodel);
+            await db.Mangas.AddAsync(newManga);
+            await db.SaveChangesAsync();
+            return newManga.Id;
         }
+
+        public async Task<List<MangaModel>> GetAll()
+        {
+            var mangas = new List<MangaModel>();
+            var allmanga = await db.Mangas.ToListAsync();
+            if (allmanga?.Any() == true)
+            {
+                foreach (var mangamodel in allmanga)
+                {
+                    mangas.Add(MangaMapper.toViewModel(mangamodel));
+                }
+            }
+            return mangas;
+        }
+
+
+        public async Task<MangaModel> GetById(int Id)
+        {
+            var mangamodel = await db.Mangas.FindAsync(Id);
+
+            if (mangamodel != null)
+            {
+                var mangaDetails = MangaMapper.toViewModel(mangamodel);
+                return mangaDetails;
+            }
+            return null;
+        }
+
 
         public void Delete(int id)
         {
@@ -33,43 +64,27 @@ namespace MangaBooksProject.Services
             }
         }
 
-        public IEnumerable<MangaModel> GetAll()
+        public void Update(MangaModel mangamodel)
         {
-            var manga = db.Mangas.OrderBy(m => m.Title).ToList();
-            return manga;
 
-        }
+            var editManga = MangaMapper.toAggregate(mangamodel);
+            var oldEntry = db.Mangas.FirstOrDefault(x=>x.Id.Equals(mangamodel.Id));
 
-        public MangaModel GetById(int id)
-        {
-            var manga = db.Mangas.Find(id);
-            return manga;
-        }
-
-        public void Update(MangaModel manga)
-        {
-            var entry = db.Entry(manga);
-            entry.State = EntityState.Modified;
+            db.Entry(oldEntry).CurrentValues.SetValues(editManga);
+            //entry.State = EntityState.Modified;
             db.SaveChanges();
-
         }
 
-        public IEnumerable<MangaModel> GetByRating()
-        {
-            var manga = db.Mangas.Where(m => m.Rating > 3).ToList();
-            return manga;
-        }
-
-        public IEnumerable<MangaModel> GetByStatus()
-        {
-            var manga = db.Mangas.Where(m => m.Status == true).OrderBy(m => m.Title).ToList();
-            return manga; 
-        }
-
-        public IEnumerable<MangaModel> GetBySearchString(string searchString)
+        public string GetBySearchString(string searchString)
         {
             var manga = db.Mangas.Where(m => m.Title.Contains(searchString) || searchString == null).OrderBy(m => m.Title).ToList();
-            return manga;
+            return searchString;
         }
+
+
+
+
+
+
     }
 }

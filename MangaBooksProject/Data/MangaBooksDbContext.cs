@@ -1,11 +1,12 @@
-﻿using MangaBooksProject.Models;
+﻿using MangaBooksProject.Data;
+using MangaBooksProject.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MangaBooksProject.Services
+namespace MangaBooksProject.Data
 {
     public class MangaBooksDbContext : DbContext
     {
@@ -13,6 +14,6 @@ namespace MangaBooksProject.Services
         {
 
         }
-        public DbSet<MangaModel> Mangas { get; set; }
+        public DbSet<Mangas> Mangas { get; set; }
     }
 }

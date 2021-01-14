@@ -4,11 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using MangaBooksProject.Models;
-using MangaBooksProject.Services;
+using MangaBooksProject.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Web;
 using Microsoft.AspNetCore.Hosting;
+
 
 namespace MangaBooksProject.Controllers
 {
@@ -24,71 +25,67 @@ namespace MangaBooksProject.Controllers
             this.webHostEnvironment = webHostEnvironment;
         }
 
-        //Get Mangas List
-        public IActionResult Index(string searchString)
+
+        public async Task<ViewResult> Index()
         {
-            var model = db.GetBySearchString(searchString);
+            var model = await db.GetAll();
             return View(model);
         }
 
-        //Get Create
+        //////get mangas list
+        ////public iactionresult index(string searchstring)
+        ////{
+        ////    var model = db.getbysearchstring(searchstring);
+        ////    return view(model);
+        ////}
+
+
         [HttpGet]
-        public IActionResult Create(int id)
+        public ViewResult Create()
         {
-            var model = db.GetById(id);
-            return View(model);
-        }
-
-        //Post Create
-        [HttpPost]
-        public IActionResult Create(MangaModelCreate model)
-        {
-            if (model.MangaImage != null && ModelState.IsValid)
-            {
-                string uniqueFileName = null;
-                if (model.MangaImage != null)
-                {
-                    string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images/Uploaded_covers");
-                    uniqueFileName = Guid.NewGuid().ToString() + "_" + model.MangaImage.FileName;
-                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                    model.MangaImage.CopyTo(new FileStream(filePath, FileMode.Create));
-                }
-                MangaModel newManga = new MangaModel
-                {
-                    MangaImagePath = uniqueFileName,
-                    Chapters = model.Chapters,
-                    Description = model.Description,
-                    Title = model.Title,
-                    Author = model.Author,
-                    Status = model.Status,
-                    Rating = model.Rating,
-                    Releasedate = model.Releasedate,
-                    Genre = model.Genre
-                };
-                db.Add(newManga);
-                return RedirectToAction("Details", new { id = newManga.Id });
-            }
             return View();
         }
 
-        //Get Details
-        [HttpGet]
-        public IActionResult Details(int id)
+
+        [HttpPost]
+        public async Task<IActionResult> Create(MangaModel model)
         {
-            var model = db.GetById(id);
-            return View(model);
+            if (model.MangaImage != null)
+            {
+                string folder = "images/Uploaded_covers/";
+                string imagePath = Path.Combine(webHostEnvironment.WebRootPath, folder);
+
+                var fileName = Guid.NewGuid().ToString() + model.MangaImage.FileName;
+                model.fileName = fileName;
+                await model.MangaImage.CopyToAsync(new FileStream(imagePath + fileName, FileMode.Create));
+
+                await db.Add(model);
+
+                return RedirectToAction("Index", "Home");
+            };
+            return RedirectToAction(nameof(Create));
+        }
+    
+
+
+        //[Route("Details/{id}", Name = "mangaDetailsroute")]
+        [HttpGet]
+        public async Task<ViewResult> Details(int Id)
+        {
+            var data = await db.GetById(Id);
+            return View(data);
         }
 
         //Get Delete
         [HttpGet]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var model = db.GetById(id);
-            if (model == null)
+            var data = await db.GetById(id);
+            if (data == null)
             {
                 return RedirectToAction("Error");
             }
-            return View(model);
+            return View(data);
         }
 
         //Post Delete
@@ -103,42 +100,37 @@ namespace MangaBooksProject.Controllers
 
         //Get Edit
         [HttpGet]
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            var model = db.GetById(id);
-            if (model == null)
+            var model = await db.GetById(id);
+        
+            if (model != null)
             {
-                return RedirectToAction("NotFound");
+                return View(model);
             }
-            return View(model);
+            return RedirectToAction("NotFound");
+            
         }
 
         //Post Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(MangaModel manga)
+        public async Task<IActionResult> Edit(MangaModel model) 
         {
             if (ModelState.IsValid)
             {
-                db.Update(manga);
-                return RedirectToAction("Index");
-            }
-            return View();
-        }
+                string folder = "images/Uploaded_covers/";
+                string imagePath = Path.Combine(webHostEnvironment.WebRootPath, folder);
 
-        [HttpGet]
-        public IActionResult HotManga()
-        {
-            var model = db.GetByRating();
-            return View(model);
-        }
+                var fileName = Guid.NewGuid().ToString() + model.MangaImage.FileName;
+                model.fileName = fileName;
+                await model.MangaImage.CopyToAsync(new FileStream(imagePath + fileName, FileMode.Create));
 
-        [HttpGet]
-        public IActionResult FinishedManga()
-        {
-            var model = db.GetByStatus();
-            return View(model);
+                db.Update(model);
+
+                return RedirectToAction("Index", "Home");
+            };
+            return RedirectToAction(nameof(Create));
         }
     }
-
 }
