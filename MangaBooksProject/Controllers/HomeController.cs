@@ -24,9 +24,9 @@ namespace MangaBooksProject.Controllers
             this.db = db;
         }
 
-        public async Task<ViewResult> Index()
+        public async Task<ViewResult> Index(string searchString)
         {
-            var model = await db.GetAll();
+            var model = await db.GetAll(searchString);
             return View(model);
         }
 

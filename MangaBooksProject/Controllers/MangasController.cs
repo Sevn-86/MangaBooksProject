@@ -28,16 +28,11 @@ namespace MangaBooksProject.Controllers
 
         public async Task<ViewResult> Index()
         {
+
             var model = await db.GetAll();
             return View(model);
         }
 
-        //////get mangas list
-        ////public iactionresult index(string searchstring)
-        ////{
-        ////    var model = db.getbysearchstring(searchstring);
-        ////    return view(model);
-        ////}
 
 
         [HttpGet]

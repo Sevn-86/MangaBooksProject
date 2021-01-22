@@ -9,7 +9,7 @@ namespace MangaBooksProject.Data
     {
         Task<MangaModel> GetById(int Id);
         Task<int> Add(MangaModel mangamodel);
-        Task <List<MangaModel>> GetAll();
+        Task <List<MangaModel>> GetAll(string searchString = null);
         void Update(MangaModel model);
         void Delete(int id);
         string GetBySearchString(string searchString); 

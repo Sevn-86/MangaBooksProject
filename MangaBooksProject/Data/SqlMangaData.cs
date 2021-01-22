@@ -26,10 +26,21 @@ namespace MangaBooksProject.Data
             return newManga.Id;
         }
 
-        public async Task<List<MangaModel>> GetAll()
+        public async Task<List<MangaModel>> GetAll(string searchString = null)
         {
             var mangas = new List<MangaModel>();
-            var allmanga = await db.Mangas.ToListAsync();
+            var allmanga = new List<Mangas>();
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                allmanga = await db.Mangas.Where(x => x.Title.Contains(searchString)).ToListAsync();
+            }
+            else
+            {
+                allmanga = await db.Mangas.ToListAsync();
+            }
+
+
             if (allmanga?.Any() == true)
             {
                 foreach (var mangamodel in allmanga)
@@ -75,11 +86,40 @@ namespace MangaBooksProject.Data
             db.SaveChanges();
         }
 
+
+
         public string GetBySearchString(string searchString)
         {
-            var manga = db.Mangas.Where(m => m.Title.Contains(searchString) || searchString == null).OrderBy(m => m.Title).ToList();
+            var mangas = from m in db.Mangas
+                         select m;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                mangas = mangas.Where(s => s.Title.Contains(searchString));
+            }
             return searchString;
         }
+
+
+        public IEnumerable<Mangas> GetMangasBySearchString(string searchString)
+        {
+            var mangas = from m in db.Mangas
+                         select m;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                mangas = mangas.Where(s => s.Title.Contains(searchString));
+            }
+            return mangas;
+        }
+
+
+
+        //public string GetBySearchString(string searchString)
+        //{
+        //    var manga = db.Mangas.Where(m => m.Title.Contains(searchString) || searchString == null).OrderBy(m => m.Title).ToList();
+        //    return searchString;
+        //}
 
 
 
