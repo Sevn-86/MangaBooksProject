@@ -5,16 +5,16 @@
 }
 
 <div class="container">
-    <h2 class="display-4">Finished Manga</h2>
-    <hr />
     <div class="row mt-5" align="center">
 
         @foreach (var item in Model)
         {
-            var MangaImagePath = "~/Images/Uploaded_covers/" + item.MangaImagePath;
+
+
             <div class="col-md-4 mb-5">
                 <div class="card" style="width: 18rem;">
-                    <img src="@MangaImagePath" class="card-img-top" alt="Temp" asp-append-version="true">
+                    <img class="card-img-top" src="/images/Uploaded_covers/@item.fileName" alt="@item.Title" asp-append-version="true" />
+
                     <div class="card-body">
                         <p class="card-text">@item.Title</p>
                         <a class="btn btn-info" asp-controller="Mangas" asp-action="Details" asp-route-id="@item.Id" asp-route-title="@item.Title">View Details</a>

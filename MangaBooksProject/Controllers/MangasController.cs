@@ -26,13 +26,25 @@ namespace MangaBooksProject.Controllers
         }
 
 
-        public async Task<ViewResult> Index()
+        public async Task<ViewResult> Index(string searchString)
         {
-
-            var model = await db.GetAll();
+            var model = await db.GetAll(searchString);
             return View(model);
         }
 
+
+        public async Task<ViewResult> PopulairManga(string searchString)
+        {
+            var model = await db.GetPopulairManga(searchString);
+            return View(model);
+        }
+
+
+        public async Task<ViewResult> FinishedManga(string searchString)
+        {
+            var model = await db.GetFinishedManga(searchString);
+            return View(model);
+        }
 
 
         [HttpGet]
@@ -61,8 +73,6 @@ namespace MangaBooksProject.Controllers
             return RedirectToAction(nameof(Create));
         }
     
-
-
         //[Route("Details/{id}", Name = "mangaDetailsroute")]
         [HttpGet]
         public async Task<ViewResult> Details(int Id)
