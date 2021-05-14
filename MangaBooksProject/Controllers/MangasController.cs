@@ -25,28 +25,28 @@ namespace MangaBooksProject.Controllers
             this.webHostEnvironment = webHostEnvironment;
         }
 
-
+        //returns all manga 
         public async Task<ViewResult> Index(string searchString)
         {
             var model = await db.GetAll(searchString);
             return View(model);
         }
 
-
+        //returns all manga where Rating > 3
         public async Task<ViewResult> PopulairManga(string searchString)
         {
             var model = await db.GetPopulairManga(searchString);
             return View(model);
         }
 
-
+        //returns all manga where Status == true
         public async Task<ViewResult> FinishedManga(string searchString)
         {
             var model = await db.GetFinishedManga(searchString);
             return View(model);
         }
 
-
+        //returns Create View location Views/Mangas/Create   
         [HttpGet]
         public ViewResult Create()
         {

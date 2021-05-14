@@ -18,6 +18,7 @@ namespace MangaBooksProject.Data
             this.db = db;
         }
 
+        //adds new manga to the database
         public async Task<int> Add(MangaModel mangamodel)
         {
             var newManga = MangaMapper.toAggregate(mangamodel);
@@ -26,6 +27,7 @@ namespace MangaBooksProject.Data
             return newManga.Id;
         }
 
+        //retrieves all mangas from the database 
         public async Task<List<MangaModel>> GetAll(string searchString = null)
         {
             var mangas = new List<MangaModel>();
@@ -52,7 +54,7 @@ namespace MangaBooksProject.Data
         }
 
 
-
+        //function to retrieve all manga where Rating > 3
         public async Task<List<MangaModel>> GetPopulairManga(string searchString = null)
         {
             var mangas = new List<MangaModel>();
@@ -78,6 +80,7 @@ namespace MangaBooksProject.Data
             return mangas;
         }
 
+        //function te retrieve all manga where Status == true
         public async Task<List<MangaModel>> GetFinishedManga(string searchString = null)
         {
             var mangas = new List<MangaModel>();
@@ -105,7 +108,7 @@ namespace MangaBooksProject.Data
 
 
 
-
+        //returns manga By Id parameter
         public async Task<MangaModel> GetById(int Id)
         {
             var mangamodel = await db.Mangas.FindAsync(Id);
@@ -118,7 +121,7 @@ namespace MangaBooksProject.Data
             return null;
         }
 
-
+        //Function to delete manga from database
         public void Delete(int id)
         {
             var manga = db.Mangas.Find(id);
@@ -129,6 +132,7 @@ namespace MangaBooksProject.Data
             }
         }
 
+        //function to update manga from database
         public void Update(MangaModel mangamodel)
         {
 

@@ -20,24 +20,5 @@ namespace MangaBooksProject.tests
             //Assert
             Assert.Equal(authorinput, result);
         }
-
-        //[Fact]
-        //public void GenreInput()
-        ////{
-        ////    //Arrange
-        ////    var manga1 = new Manga();
-        ////    var authorinput = manga1.Genre = "Shinobi";
-
-        ////    //Act
-        ////    var result = "Kubo Tite";
-
-
-        ////    //Assert
-        ////    Assert.Equal(authorinput, result);
-        ////}
-
-
-
-
     }
 }

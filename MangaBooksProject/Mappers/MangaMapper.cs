@@ -9,6 +9,7 @@ namespace MangaBooksProject.Mappers
 {
     public static class MangaMapper
     {
+        //function to return new Manga object
         public static Mangas toAggregate(MangaModel mangamodel)
         {
             var result = new Mangas()
@@ -27,7 +28,7 @@ namespace MangaBooksProject.Mappers
 
             return result;
         }
-
+        //function to return new MangaModel object
         public static MangaModel toViewModel(Mangas mangamodel)
         {
             var result = new MangaModel()
