@@ -20,7 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Helper\" />
     <Folder Include="wwwroot\Images\Carousel\" />
     <Folder Include="wwwroot\Images\Uploaded_covers\" />
   </ItemGroup>
