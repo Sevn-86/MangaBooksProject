@@ -28,7 +28,7 @@ namespace MangaBooksProject.Controllers
         //returns all manga 
         public async Task<ViewResult> Index(string searchString)
         {
-            var model = await db.GetAllMangas(searchString);
+            var model = await db.GetAllMangaBooks(searchString);
             return View(model);
         }
 
@@ -39,7 +39,6 @@ namespace MangaBooksProject.Controllers
             return View(model);
         }
 
-        //returns all manga where Status == true
         public async Task<ViewResult> FinishedManga(string searchString)
         {
             var model = await db.GetFinishedManga(searchString);
@@ -126,12 +125,16 @@ namespace MangaBooksProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                string folder = "images/Uploaded_covers/";
-                string imagePath = Path.Combine(webHostEnvironment.WebRootPath, folder);
+                if (model.MangaImage != null)
+                {
+                    string folder = "images/Uploaded_covers/";
+                    string imagePath = Path.Combine(webHostEnvironment.WebRootPath, folder);
 
-                var fileName = Guid.NewGuid().ToString() + model.MangaImage.FileName;
-                model.fileName = fileName;
-                await model.MangaImage.CopyToAsync(new FileStream(imagePath + fileName, FileMode.Create));
+                    var fileName = Guid.NewGuid().ToString() + model.MangaImage.FileName;
+                    model.fileName = fileName;
+                    await model.MangaImage.CopyToAsync(new FileStream(imagePath + fileName, FileMode.Create));
+                }
+
 
                 db.Update(model);
 

@@ -1,10 +1,7 @@
 ﻿using MangaBooksProject.Mappers;
 using MangaBooksProject.Models;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -28,82 +25,42 @@ namespace MangaBooksProject.Data
         }
 
         //retrieves all mangas from the database 
-        public async Task<List<MangaModel>> GetAllMangas(string searchString = null)
+        public async Task<List<MangaModel>> GetAllMangaBooks(string searchString = null)
         {
-            var mangas = new List<MangaModel>();
-            var allmanga = new List<Mangas>();
+            var result = GetAllMangas();
+            result = FilterByTitle(result, searchString);
+ 
+            var allMangasResult = await result.ToListAsync() ?? Enumerable.Empty<Mangas>();
+            var mangaModels = await MapResultsToViewModel(allMangasResult);
 
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                allmanga = await db.Mangas.Where(x => x.Title.Contains(searchString)).ToListAsync();
-            }
-            else
-            {
-                allmanga = await db.Mangas.ToListAsync();
-            }
-
-
-            if (allmanga?.Any() == true)
-            {
-                foreach (var mangamodel in allmanga)
-                {
-                    mangas.Add(MangaMapper.toViewModel(mangamodel));
-                }
-            }
-            return mangas;
+            return mangaModels;
         }
 
 
         //function to retrieve all manga where Rating > 3
         public async Task<List<MangaModel>> GetPopulairManga(string searchString = null)
         {
-            var mangas = new List<MangaModel>();
-            var allmanga = new List<Mangas>();
+            var result = GetAllMangas();
+            result = FilterByTitle(result, searchString);
+            result = result.Where(x => x.Rating > 3);
 
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                allmanga = await db.Mangas.Where(x => x.Title.Contains(searchString)).ToListAsync();
-            }
-            else
-            {
-                allmanga = await db.Mangas.Where(x => x.Rating > 3).ToListAsync();
-            }
+            var allMangasResult = await result.ToListAsync() ?? Enumerable.Empty<Mangas>();
+            var mangaModels = await MapResultsToViewModel(allMangasResult);
 
-
-            if (allmanga?.Any() == true)
-            {
-                foreach (var mangamodel in allmanga)
-                {
-                    mangas.Add(MangaMapper.toViewModel(mangamodel));
-                }
-            }
-            return mangas;
+            return mangaModels;
         }
 
         //function te retrieve all manga where Status == true
         public async Task<List<MangaModel>> GetFinishedManga(string searchString = null)
         {
-            var mangas = new List<MangaModel>();
-            var allmanga = new List<Mangas>();
+            var result = GetAllMangas();
+            result = FilterByTitle(result, searchString);
+            result = result.Where(x => x.Status == true);
 
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                allmanga = await db.Mangas.Where(x => x.Title.Contains(searchString)).ToListAsync();
-            }
-            else
-            {
-                allmanga = await db.Mangas.Where(x => x.Status == true).ToListAsync();
-            }
+            var allMangasResult = await result.ToListAsync() ?? Enumerable.Empty<Mangas>();
+            var mangaModels = await MapResultsToViewModel(allMangasResult);
 
-
-            if (allmanga?.Any() == true)
-            {
-                foreach (var mangamodel in allmanga)
-                {
-                    mangas.Add(MangaMapper.toViewModel(mangamodel));
-                }
-            }
-            return mangas;
+            return mangaModels;
         }
 
 
@@ -137,10 +94,39 @@ namespace MangaBooksProject.Data
         {
 
             var editManga = MangaMapper.toAggregate(mangamodel);
-            var oldEntry = db.Mangas.FirstOrDefault(x=>x.Id.Equals(mangamodel.Id));
+            var oldEntry = db.Mangas.FirstOrDefault(x => x.Id.Equals(mangamodel.Id));
 
             db.Entry(oldEntry).CurrentValues.SetValues(editManga);
             db.SaveChanges();
         }
+
+
+        private IQueryable<Mangas> GetAllMangas()
+        {
+            var result = db.Mangas.AsQueryable();
+            return result;
+        }
+
+        private IQueryable<Mangas> FilterByTitle(IQueryable<Mangas> iQueryable, string searchString = null)
+        {
+            if (!string.IsNullOrWhiteSpace(searchString))
+            {
+                iQueryable = iQueryable.Where(x => x.Title.Contains(searchString));
+            }
+            return iQueryable;
+        }
+
+        private async Task<List<MangaModel>> MapResultsToViewModel(IEnumerable<Mangas> Mangas)
+        {
+            var viewModels = new List<MangaModel>();
+
+            foreach (var mangamodel in Mangas)
+            {
+                viewModels.Add(MangaMapper.toViewModel(mangamodel));
+            }
+            return viewModels;
+        }
+
+
     }
 }

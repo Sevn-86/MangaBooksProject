@@ -27,7 +27,7 @@ namespace MangaBooksProject.Controllers
         // Returns the index view
         public async Task<ViewResult> Index(string searchString)
         {
-            var model = await db.GetAllMangas(searchString);
+            var model = await db.GetAllMangaBooks(searchString);
             return View(model);
         }
 
