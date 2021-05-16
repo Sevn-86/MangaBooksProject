@@ -27,7 +27,7 @@ namespace MangaBooksProject.Controllers
         //This method returns all Manga to display them on the home page.
         public async Task<ViewResult> Index(string searchString)
         {
-            var model = await db.GetAll(searchString);
+            var model = await db.GetAllMangas(searchString);
             return View(model);
         }
 

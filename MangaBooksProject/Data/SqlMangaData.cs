@@ -28,7 +28,7 @@ namespace MangaBooksProject.Data
         }
 
         //retrieves all mangas from the database 
-        public async Task<List<MangaModel>> GetAll(string searchString = null)
+        public async Task<List<MangaModel>> GetAllMangas(string searchString = null)
         {
             var mangas = new List<MangaModel>();
             var allmanga = new List<Mangas>();

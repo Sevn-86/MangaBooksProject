@@ -28,7 +28,7 @@ namespace MangaBooksProject.Controllers
         //returns all manga 
         public async Task<ViewResult> Index(string searchString)
         {
-            var model = await db.GetAll(searchString);
+            var model = await db.GetAllMangas(searchString);
             return View(model);
         }
 
@@ -46,14 +46,15 @@ namespace MangaBooksProject.Controllers
             return View(model);
         }
 
-        //returns Create View location Views/Mangas/Create   
+        //request data from Create view
         [HttpGet]
         public ViewResult Create()
         {
             return View();
         }
 
-
+        //sends data from create view to server
+        //creates a new filestream with unique GUID for every uploaded image
         [HttpPost]
         public async Task<IActionResult> Create(MangaModel model)
         {
@@ -72,8 +73,8 @@ namespace MangaBooksProject.Controllers
             };
             return RedirectToAction(nameof(Create));
         }
-    
-        //[Route("Details/{id}", Name = "mangaDetailsroute")]
+
+        //request data from Details view
         [HttpGet]
         public async Task<ViewResult> Details(int Id)
         {
@@ -81,7 +82,7 @@ namespace MangaBooksProject.Controllers
             return View(data);
         }
 
-        //Get Delete
+        //request data from Delete view
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
@@ -93,7 +94,7 @@ namespace MangaBooksProject.Controllers
             return View(data);
         }
 
-        //Post Delete
+        //sends data from delete view to server
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection form)
@@ -103,7 +104,7 @@ namespace MangaBooksProject.Controllers
         }
 
 
-        //Get Edit
+        //request data from Edit view
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -117,7 +118,8 @@ namespace MangaBooksProject.Controllers
             
         }
 
-        //Post Edit
+        //sends data from Edit view to server
+        //if the ModelState is valid update the imagepath  
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(MangaModel model) 
