@@ -100,13 +100,14 @@ namespace MangaBooksProject.Data
             db.SaveChanges();
         }
 
-
+        //function that returns all mangas as IQueryable object
         private IQueryable<Mangas> GetAllMangas()
         {
             var result = db.Mangas.AsQueryable();
             return result;
         }
 
+        //function that filters mangas by title and returns an IQueryable 
         private IQueryable<Mangas> FilterByTitle(IQueryable<Mangas> iQueryable, string searchString = null)
         {
             if (!string.IsNullOrWhiteSpace(searchString))
@@ -116,6 +117,7 @@ namespace MangaBooksProject.Data
             return iQueryable;
         }
 
+        //function that maps results to view model by using MangaMapper function
         private async Task<List<MangaModel>> MapResultsToViewModel(IEnumerable<Mangas> Mangas)
         {
             var viewModels = new List<MangaModel>();
